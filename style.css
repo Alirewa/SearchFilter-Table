@@ -48,6 +48,14 @@
   --color-red-300: rgb(252, 165, 165);
   --color-red-100: rgb(254, 226, 226);
 }
+.color-green {
+  color: var(--color-success);
+  font-weight: bold;
+}
+.color-red {
+  color: var(--color-red-500);
+  font-weight: bold;
+}
 body {
   color: var(--color-secondary-900);
   background-color: var(--color-secondary-50);

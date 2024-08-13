@@ -95,7 +95,7 @@ function createNotes(notes) {
       <td class="createdAt">${new Date(note.createdAt).toLocaleDateString(
         "fa-IR"
       )}</td>
-      <td class="${note.type === "false" ? "color-red" : "color-green"}">${
+      <td class="${note.completed === false ? "color-red" : "color-green"}">${
       note.completed
     }</td>
       </tr>
