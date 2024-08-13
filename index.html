@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sort & Filter</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>NotesList App</h1>
+      <div class="search-div">
+        <input
+          type="text"
+          id="search-input"
+          class="form-control"
+          placeholder="Search Anything..."
+        />
+      </div>
+      <div>
+        <table class="notes-table">
+          <tr class="bg-info">
+            <th>id</th>
+            <th>Title</th>
+            <th data-type="createdAt">createdAt</th>
+            <th data-type="isCompleted">isCompleted</th>
+          </tr>
+
+          <tbody id="tBodyData"></tbody>
+        </table>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
