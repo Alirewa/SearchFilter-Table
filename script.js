@@ -1,5 +1,6 @@
 const searchInput = document.querySelector("#search-input");
 const selectFilter = document.querySelector("#select-filter");
+const selectSort = document.querySelector("#select-sort");
 const table = document.querySelector("#tBodyData");
 const notesList = [
   {
@@ -29,11 +30,12 @@ const notesList = [
 ];
 const filters = {
   title: "",
-  sort: "eraliest",
+  sort: "none",
   status: "all",
 };
+
 let filterValue = filters.status;
-let sortValue = filters.sort;
+
 searchInput.addEventListener("input", (e) => {
   filters.title = e.target.value.trim();
   searchNotes(notesList, filters);
@@ -42,23 +44,22 @@ selectFilter.addEventListener("change", (e) => {
   filterValue = e.target.value;
   filterNotes();
 });
-
-function sortNotes() {
-  let sort = ["latest", "eraliest"];
-  sort = sortValue;
-  notes.sort((a, b) => {
-    if (filters.sort === "latest") {
-      return a.createdAt - b.createdAt;
-    } else if (filters.sort === "eraliest") {
-      return b.createdAt - a.createdAt;
-    }
-  });
-  console.log(notes);
-  return notes;
-}
+selectSort.addEventListener("change", (e) => {
+  filters.sort = e.target.value;
+  filterNotes();
+});
 
 function filterNotes(_filters) {
   const notes = [...notesList];
+
+  notes.sort((a, b) => {
+    if (filters.sort === "latest") {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    } else if (filters.sort === "eraliest") {
+      return new Date(a.createdAt) - new Date(b.createdAt);
+    }
+  });
+
   switch (filterValue) {
     case "all": {
       createNotes(notes);
@@ -92,9 +93,7 @@ function createNotes(notes) {
     <tr>
       <td>${note.id}</td>
       <td>${note.title}</td>
-      <td class="createdAt">${new Date(note.createdAt).toLocaleDateString(
-        "fa-IR"
-      )}</td>
+      <td>${new Date(note.createdAt).toLocaleDateString("fa-IR")}</td>
       <td class="${note.completed === false ? "color-red" : "color-green"}">${
       note.completed
     }</td>
@@ -103,8 +102,4 @@ function createNotes(notes) {
   });
 
   table.innerHTML = result;
-  const createdAtSort = document.querySelector(".createdAt");
-  createdAtSort.addEventListener("click", (e) => {
-    sortNotes();
-  });
 }
