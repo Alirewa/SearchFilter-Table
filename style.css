@@ -71,8 +71,8 @@ select {
   border: none;
   outline: none;
   padding: 8px;
-  width: 100px;
   border-radius: 8px;
+  width: fit-content;
   background-color: var(--color-secondary-0);
   color: var(--color-secondary-900);
 }
@@ -81,12 +81,14 @@ select {
   margin: 15px 0;
 }
 .search-div input {
+  appearance: none;
   border: none;
+  outline: none;
   border-radius: 8px;
   background-color: var(--color-secondary-0);
   color: var(--color-secondary-900);
   padding: 8px;
-  width: 300px;
+  width: fit-content;
 }
 .notes-table {
   border-collapse: collapse;
