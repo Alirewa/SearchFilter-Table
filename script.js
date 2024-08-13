@@ -1,6 +1,7 @@
 const searchInput = document.querySelector("#search-input");
 const table = document.querySelector("#tBodyData");
-
+const selectFilter = document.querySelector("#select-filter");
+let filterValue = "all";
 const notesList = [
   {
     id: 1,
@@ -38,14 +39,38 @@ searchInput.addEventListener("input", (e) => {
   filters.title = e.target.value.trim();
   searchNotes(notesList, filters);
 });
+selectFilter.addEventListener("change", (e) => {
+  filterValue = e.target.value;
+  filterNotes();
+});
 
+function filterNotes() {
+  const notes = [...notesList];
+  switch (filterValue) {
+    case "all": {
+      createNotes(notes);
+      break;
+    }
+    case "completed": {
+      const filteredNotes = notes.filter((t) => t.completed);
+      createNotes(filteredNotes);
+      break;
+    }
+    case "uncompleted": {
+      const filteredNotes = notes.filter((t) => !t.completed);
+      createNotes(filteredNotes);
+      break;
+    }
+    default:
+      createNotes(notes);
+  }
+}
 function searchNotes(_notes, _filters) {
   const filteredNotes = _notes.filter((note) => {
     return note.title.toLowerCase().includes(_filters.title.toLowerCase());
   });
   createNotes(filteredNotes);
 }
-
 function createNotes(notes) {
   let result = "";
   notes.forEach((note) => {
@@ -54,7 +79,9 @@ function createNotes(notes) {
       <td>${note.id}</td>
       <td>${note.title}</td>
       <td>${new Date(note.createdAt).toLocaleDateString("fa-IR")}</td>
-      <td>${note.completed}</td>
+      <td class="${note.type === "false" ? "color-red" : "color-green"}">${
+      note.completed
+    }</td>
       </tr>
       `;
   });

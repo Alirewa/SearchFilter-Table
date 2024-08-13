@@ -58,6 +58,16 @@ body {
   padding: 10px;
   gap: 15px;
 }
+select {
+  appearance: none;
+  border: none;
+  outline: none;
+  padding: 8px;
+  width: 100px;
+  border-radius: 8px;
+  background-color: var(--color-secondary-0);
+  color: var(--color-secondary-900);
+}
 .search-div {
   display: block;
   margin: 15px 0;
