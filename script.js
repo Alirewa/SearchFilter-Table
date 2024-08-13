@@ -1,7 +1,6 @@
 const searchInput = document.querySelector("#search-input");
-const table = document.querySelector("#tBodyData");
 const selectFilter = document.querySelector("#select-filter");
-let filterValue = "all";
+const table = document.querySelector("#tBodyData");
 const notesList = [
   {
     id: 1,
@@ -28,13 +27,13 @@ const notesList = [
     completed: false,
   },
 ];
-
 const filters = {
   title: "",
-  sort: "latest",
-  status: "completed",
+  sort: "eraliest",
+  status: "all",
 };
-
+let filterValue = filters.status;
+let sortValue = filters.sort;
 searchInput.addEventListener("input", (e) => {
   filters.title = e.target.value.trim();
   searchNotes(notesList, filters);
@@ -44,7 +43,21 @@ selectFilter.addEventListener("change", (e) => {
   filterNotes();
 });
 
-function filterNotes() {
+function sortNotes() {
+  let sort = ["latest", "eraliest"];
+  sort = sortValue;
+  notes.sort((a, b) => {
+    if (filters.sort === "latest") {
+      return a.createdAt - b.createdAt;
+    } else if (filters.sort === "eraliest") {
+      return b.createdAt - a.createdAt;
+    }
+  });
+  console.log(notes);
+  return notes;
+}
+
+function filterNotes(_filters) {
   const notes = [...notesList];
   switch (filterValue) {
     case "all": {
@@ -71,6 +84,7 @@ function searchNotes(_notes, _filters) {
   });
   createNotes(filteredNotes);
 }
+searchNotes(notesList, filters);
 function createNotes(notes) {
   let result = "";
   notes.forEach((note) => {
@@ -78,13 +92,19 @@ function createNotes(notes) {
     <tr>
       <td>${note.id}</td>
       <td>${note.title}</td>
-      <td>${new Date(note.createdAt).toLocaleDateString("fa-IR")}</td>
+      <td class="createdAt">${new Date(note.createdAt).toLocaleDateString(
+        "fa-IR"
+      )}</td>
       <td class="${note.type === "false" ? "color-red" : "color-green"}">${
       note.completed
     }</td>
       </tr>
       `;
   });
+
   table.innerHTML = result;
+  const createdAtSort = document.querySelector(".createdAt");
+  createdAtSort.addEventListener("click", (e) => {
+    sortNotes();
+  });
 }
-searchNotes(notesList, filters);
