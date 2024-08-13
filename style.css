@@ -77,7 +77,9 @@ select {
   color: var(--color-secondary-900);
 }
 .search-div {
-  display: block;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
   margin: 15px 0;
 }
 .search-div input {
