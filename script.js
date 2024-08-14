@@ -30,61 +30,55 @@ const notesList = [
 ];
 const filters = {
   title: "",
-  sort: "none",
+  sort: "latest",
   status: "all",
 };
 
 searchInput.addEventListener("input", (e) => {
   filters.title = e.target.value.trim();
-  searchNotes(notesList, filters);
+  filterNotes(notesList, filters);
 });
+
 selectFilter.addEventListener("change", (e) => {
   filters.status = e.target.value;
-  filterNotes();
+  filterNotes(notesList, filters);
 });
+
 selectSort.addEventListener("change", (e) => {
   filters.sort = e.target.value;
-  filterNotes();
+  filterNotes(notesList, filters);
 });
 
-function filterNotes(_filters) {
-  const notes = [...notesList];
+function filterNotes(data, search) {
+  const filteredNotes = data.filter((note) => {
+    return note.title.toLowerCase().includes(search.title.toLowerCase());
+  });
 
-  notes.sort((a, b) => {
+  const sortedNotes = filteredNotes.sort((a, b) => {
     if (filters.sort === "latest") {
       return new Date(b.createdAt) - new Date(a.createdAt);
-    } else if (filters.sort === "eraliest") {
+    } else if (filters.sort === "earliest") {
       return new Date(a.createdAt) - new Date(b.createdAt);
     }
   });
 
   switch (filters.status) {
-    case "all": {
-      createNotes(notes);
-      break;
-    }
     case "completed": {
-      const filteredNotes = notes.filter((t) => t.completed);
-      createNotes(filteredNotes);
+      renderNotes(sortedNotes.filter((t) => t.completed));
       break;
     }
     case "uncompleted": {
-      const filteredNotes = notes.filter((t) => !t.completed);
-      createNotes(filteredNotes);
+      renderNotes(sortedNotes.filter((t) => !t.completed));
       break;
     }
     default:
-      createNotes(notes);
+      renderNotes(sortedNotes);
   }
 }
-function searchNotes(_notes, _filters) {
-  const filteredNotes = _notes.filter((note) => {
-    return note.title.toLowerCase().includes(_filters.title.toLowerCase());
-  });
-  createNotes(filteredNotes);
-}
-searchNotes(notesList, filters);
-function createNotes(notes) {
+
+function renderNotes(notes) {
+  console.log("render");
+
   let result = "";
   notes.forEach((note) => {
     result += `
@@ -101,3 +95,5 @@ function createNotes(notes) {
 
   table.innerHTML = result;
 }
+
+filterNotes(notesList, filters);
