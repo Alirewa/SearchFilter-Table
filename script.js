@@ -34,14 +34,12 @@ const filters = {
   status: "all",
 };
 
-let filterValue = filters.status;
-
 searchInput.addEventListener("input", (e) => {
   filters.title = e.target.value.trim();
   searchNotes(notesList, filters);
 });
 selectFilter.addEventListener("change", (e) => {
-  filterValue = e.target.value;
+  filters.status = e.target.value;
   filterNotes();
 });
 selectSort.addEventListener("change", (e) => {
@@ -60,7 +58,7 @@ function filterNotes(_filters) {
     }
   });
 
-  switch (filterValue) {
+  switch (filters.status) {
     case "all": {
       createNotes(notes);
       break;
